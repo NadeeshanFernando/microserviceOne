@@ -1,0 +1,12 @@
+package com.anton.microOne.repo;
+
+import com.anton.microOne.model.Employee;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+
+//    @Query("SELECT e from Employee e left join e.employee e where e.id=?1")
+//    List<Employee> findByParentEntityId(Long id);
+}
