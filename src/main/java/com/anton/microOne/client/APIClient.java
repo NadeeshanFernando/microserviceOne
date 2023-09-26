@@ -9,7 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(value = "MICRO-TWO", url = "localhost:8082/microTwo")
+/**
+ * @author by nadeeshan_fdz
+ */
+
+@FeignClient(value = "MICRO-TWO", url = "${microTwo.url}")
 public interface APIClient {
 
     @GetMapping(value = "/department/{id}")
