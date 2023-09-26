@@ -1,12 +1,14 @@
 package com.anton.microOne.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.http.HttpStatusCode;
 
 import java.util.Set;
+
+/**
+ * @author by nadeeshan_fdz
+ */
 
 @Setter @Getter @AllArgsConstructor @NoArgsConstructor
 @Entity
@@ -15,6 +17,7 @@ import java.util.Set;
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "employee_id")
 //    @JsonIgnore
     public long employeeId;
 
@@ -30,7 +33,7 @@ public class Employee {
     @Column(name = "empSalary")
     public double empSalary;
 
-    @Column(name = "deptId")
+    @Column(name = "department_Id")
     public long deptId;
 
     @OneToMany(mappedBy = "employee")
