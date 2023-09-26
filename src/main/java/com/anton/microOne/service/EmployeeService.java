@@ -3,6 +3,8 @@ package com.anton.microOne.service;
 import com.anton.microOne.client.APIClient;
 import com.anton.microOne.dto.EmployeeDto;
 import com.anton.microOne.dto.Response;
+import com.anton.microOne.dto.client.ClientResponse;
+import com.anton.microOne.dto.client.MicroTwoDepartment;
 import com.anton.microOne.model.Employee;
 import com.anton.microOne.repo.EmployeeRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +29,9 @@ public class EmployeeService {
     @Autowired
     APIClient apiClient;
 
+    @Autowired
+    ClientService clientService;
+
 
 //    public ClientResponse getEmployeeByID(Long id) {
 //        ClientResponse response = new ClientResponse();
@@ -47,19 +52,29 @@ public class EmployeeService {
         log.info("Saving Employee");
         Response<Employee> response = new Response<>();
 
-        if(!employeeRepository.existsByEmpName(employeeDto.getEmpName())){
-            Employee employee = new Employee();
-            employee.setEmpName(employeeDto.getEmpName());
-            employee.setEmpPassword(employeeDto.getEmpPassword());
-            employee.setEmpAge(employeeDto.getEmpAge());
-            employee.setEmpSalary(employeeDto.getEmpSalary());
-            employee.setDeptId(employeeDto.getDeptId());
-            employeeRepository.save(employee);
+        MicroTwoDepartment microTwoDepartment = clientService.getMicroTwoDepartmentById(employeeDto.getDeptId());
 
-            response.setData(employee);
-            response.setStatus(HttpStatus.OK.value());
-            response.setMsg("New Employee Saved");
-            log.info("New Employee Saved");
+        if(!employeeRepository.existsByEmpName(employeeDto.getEmpName())){
+            if(microTwoDepartment!=null){
+                Employee employee = new Employee();
+                employee.setEmpName(employeeDto.getEmpName());
+                employee.setEmpPassword(employeeDto.getEmpPassword());
+                employee.setEmpAge(employeeDto.getEmpAge());
+                employee.setEmpSalary(employeeDto.getEmpSalary());
+                employee.setDeptId(employeeDto.getDeptId());
+                employeeRepository.save(employee);
+
+                response.setData(employee);
+                response.setStatus(HttpStatus.OK.value());
+                response.setMsg("New Employee Saved");
+                log.info("New Employee Saved");
+            }
+            else{
+                response.setData(null);
+                response.setStatus(HttpStatus.OK.value());
+                response.setMsg("Department Id Not Found");
+                log.info("Department Id Not Found");
+            }
         }
         else{
             response.setData(null);

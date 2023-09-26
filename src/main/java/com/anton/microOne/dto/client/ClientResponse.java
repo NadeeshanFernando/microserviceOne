@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClientResponse {
+public class ClientResponse<M> {
 
     private MicroTwoDepartment microTwoDepartment;
     private Employee employee;
